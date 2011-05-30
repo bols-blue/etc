@@ -47,28 +47,28 @@ class PomGenerator_PomGenerator
      *
      * @access public
      */
-    public $projectName[ null | null | null ];
+    public $projectName;
 
     /**
      * Short description of attribute moduleList
      *
      * @access public
      */
-    public $moduleList[ null | null | null ];
+    public $moduleList;
 
     /**
      * Short description of attribute groupName
      *
      * @access public
      */
-    public $groupName[ null | null | null ];
+    public $groupName;
 
     /**
      * Short description of attribute version
      *
      * @access public
      */
-    public $version[ null | null | null ];
+    public $version;
 
     // --- OPERATIONS ---
 
