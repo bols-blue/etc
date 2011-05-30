@@ -40,6 +40,8 @@ class PomGenerator_PomGenerator
     // --- ASSOCIATIONS ---
     public function __construct($projectName,$moduleList){
             $this->projectName = $projectName;
+            $this->groupName = "jp.lnc.eclipse.".$projectName;
+            $this->version = "1.0.0-SNAPSHOT";
 	    $this->moduleList =$moduleList;
     }
 
@@ -64,14 +66,14 @@ class PomGenerator_PomGenerator
      *
      * @access public
      */
-    public $groupName[ null | null | null ];
+    public $groupName;
 
     /**
      * Short description of attribute version
      *
      * @access public
      */
-    public $version[ null | null | null ];
+    public $version;
 
     // --- OPERATIONS ---
 
@@ -85,6 +87,9 @@ class PomGenerator_PomGenerator
     public function printAll()
     {
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AA9 begin
+	$this->printHeader();
+	$this->printBody();
+	$this->printFutter();
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AA9 end
     }
 
@@ -114,9 +119,9 @@ class PomGenerator_PomGenerator
 		<maven>3.0</maven>
 	</prerequisites>';
 	echo "
-	<groupId>jp.lnc.eclipse.$this->projectName</groupId>
+	<groupId>$this->groupName</groupId>
 	<artifactId>$this->projectName-parent</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>$this->version</version>
 	<packaging>pom</packaging>
 
 	<name>Maven Example Parent (Incubation)</name>";
@@ -147,7 +152,7 @@ class PomGenerator_PomGenerator
     public function printFutter()
     {
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB5 begin
-        
+        echo "</project>";
 	// section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB5 end
     }
 
