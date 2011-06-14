@@ -1,5 +1,5 @@
 all:server client
 
-server:server.c
+server:server.cpp
 
-client:client.c
+client:client.cpp
