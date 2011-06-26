@@ -50,8 +50,6 @@ start = (50,200)
 end = (50,100)
 device.drag(start,end,10.0)
 #input (string message, string initialValue, string title, string okTitle, string cancelTitle)
-MonkeyRunner.input("hello would","sample","hello")
-# Takes a screenshot
 result = device.takeSnapshot()
 
 # Writes the screenshot to a file
