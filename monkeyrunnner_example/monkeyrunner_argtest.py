@@ -13,7 +13,7 @@ print argc
 print
 if (argc != 2):
 	print 'Usage: # python %s filename' % argvs[0]
-	sys.exit()
+	sys.exit(-1)
 
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection(10.0,argvs[1])
@@ -53,4 +53,4 @@ device.drag(start,end,10.0)
 result = device.takeSnapshot()
 
 # Writes the screenshot to a file
-result.writeToFile('myproject/shot1.png','png')
+result.writeToFile('output/shot1.png','png')
