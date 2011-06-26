@@ -20,7 +20,7 @@ device = MonkeyRunner.waitForConnection(10.0,argvs[1])
 
 # Installs the Android package. Notice that this method returns a boolean, so you can test
 # to see if the installation worked.
-device.installPackage('/opt/android-sdk-linux_86/platforms/android-4/samples/ApiDemos/bin/MonkeyTools.apk')
+device.installPackage('MonkeyTools.apk')
 
 # sets a variable with the package's internal name
 package = 'com.example.android.apis'

@@ -5,9 +5,20 @@ from com.android.monkeyrunner import MonkeyRunner
 import  com.android.monkeyrunner.MonkeyDevice
 import time
 from com.android.monkeyrunner.recorder import MonkeyRecorder as recorder
+import time
+import sys 
+ 
+argvs = sys.argv  
+argc = len(argvs) 
+print argvs
+print argc
+print
+if (argc != 2):
+	print 'Usage: # python %s filename' % argvs[0]
+	sys.exit()
 
 # Connects to the current device, returning a MonkeyDevice object
-device = MonkeyRunner.waitForConnection()
+device = MonkeyRunner.waitForConnection(10.0,argvs[1])
 
 # Installs the Android package. Notice that this method returns a boolean, so you can test
 # to see if the installation worked.
