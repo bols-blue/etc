@@ -25,35 +25,20 @@ runComponent = package + '/' + activity
 device.startActivity(component=runComponent)
 
 MonkeyRunner.sleep(4)
-press_data ={'name':'MENU','type':'downAndUp',}
-device.press(press_data["name"],press_data["type"])
+touch_data ={'x':85,'y':216,'type':'downAndUp',}
+device.touch(touch_data['x'],touch_data['y'],touch_data['type'])
 MonkeyRunner.sleep(0.5)
 result = device.takeSnapshot()
 result.writeToFile('output/shot1.png','png')
-type_data ={'message':'abcdef',}
-device.type(type_data['message'])
+touch_data ={'x':336,'y':190,'type':'downAndUp',}
+device.touch(touch_data['x'],touch_data['y'],touch_data['type'])
 MonkeyRunner.sleep(0.5)
 result = device.takeSnapshot()
 result.writeToFile('output/shot2.png','png')
-wait_data ={'seconds':5.0,}
-MonkeyRunner.sleep(wait_data["seconds"])
+touch_data ={'x':358,'y':165,'type':'downAndUp',}
+device.touch(touch_data['x'],touch_data['y'],touch_data['type'])
 MonkeyRunner.sleep(0.5)
 result = device.takeSnapshot()
 result.writeToFile('output/shot3.png','png')
-drag_data ={'start':(192,640),'end':(192,128),'duration':0.1,'steps':10,}
-device.drag(drag_data['start'],drag_data['end'],drag_data['duration'],drag_data['steps'])
-MonkeyRunner.sleep(0.5)
-result = device.takeSnapshot()
-result.writeToFile('output/shot4.png','png')
-touch_data ={'x':265,'y':343,'type':'downAndUp',}
-device.touch(touch_data['x'],touch_data['y'],touch_data['type'])
-MonkeyRunner.sleep(0.5)
-result = device.takeSnapshot()
-result.writeToFile('output/shot5.png','png')
-touch_data ={'x':175,'y':555,'type':'downAndUp',}
-device.touch(touch_data['x'],touch_data['y'],touch_data['type'])
-MonkeyRunner.sleep(0.5)
-result = device.takeSnapshot()
-result.writeToFile('output/shot6.png','png')
 
 device.removePackage(package) 
