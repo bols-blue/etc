@@ -4,7 +4,7 @@ __author__ = 'bols-blue@lnc.jp'
 from com.android.monkeyrunner import MonkeyRunner
 import  com.android.monkeyrunner.MonkeyDevice
 import time
-from com.android.monkeyrunner.recorder import MonkeyRecorder as recorder
+from com.android.monkeyrunner.recorder import MonkeyRecorder 
 import time
 import sys 
  
@@ -18,7 +18,7 @@ if (argc != 2):
 	sys.exit()
 
 # Connects to the current device, returning a MonkeyDevice object
-device = MonkeyRunner.waitForConnection(10.0,argvs[1])
+device = MonkeyRunner.waitForConnection(10.0)
 
 # Installs the Android package. Notice that this method returns a boolean, so you can test
 # to see if the installation worked.
@@ -36,4 +36,4 @@ runComponent = package + '/' + activity
 # Runs the component
 device.startActivity(component=runComponent)
 
-recorder.start(device)
+MonkeyRecorder.start(device)

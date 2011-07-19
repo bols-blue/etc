@@ -20,13 +20,13 @@
  * Boston, MA  02110-1301  USA
  */
 
-
-
 #include <stdio.h>
 #include <usb.h>
 #include <libusb.h>
 #include <string.h>
 #include <unistd.h>
+
+#include "libusb_adk.h"
 
 #define IN 0x85
 #define OUT 0x07
@@ -50,52 +50,12 @@
  */
 
 static int mainPhase();
-static int init(void);
-static int deInit(void);
 static void error(int code);
 static void status(int code);
-static int setupAccessory(
-		const char* manufacturer,
-		const char* modelName,
-		const char* description,
-		const char* version,
-		const char* uri,
-		const char* serialNumber);
-
 //static
 static struct libusb_device_handle* handle;
 static char stop;
 static char success = 0;
-
-	int main (int argc, char *argv[]){
-		if(init() < 0)
-			return;
-		//doTransfer();
-		if(setupAccessory(
-					"bols",
-					"Demo",
-					"Description",
-					"1.0",
-//					"market://search?jp.co.topgate.android.game.gree.sengoku",
-					"http://market.android.com/search?q=jp.co.topgate.android.game.gree.sengoku",
-//					"http://neuxs-computing.ch",
-					"2hhh254711SerialNhho.") < 0){
-			fprintf(stdout, "Error setting up accessory\n");
-			deInit();
-			return -1;
-		};
-		fprintf(stdout, "end setup\n");
-		
-		if(mainPhase() < 0){
-			fprintf(stdout, "Error during main phase\n");
-			deInit();
-			return -1;
-		}	
-		deInit();
-		fprintf(stdout, "Done, no errors\n");
-		libusb_close(handle);
-		return 0;
-	}
 
 static int mainPhase(){
 	unsigned char buffer[500000];
@@ -109,11 +69,10 @@ static int mainPhase(){
 	response = libusb_bulk_transfer(handle,IN,buffer,500000, &transferred,0);
 	if(response < 0){error(response);return -1;}
 
-
 }
 
 
-static int init(){
+int init(){
 	libusb_init(NULL);
 	if((handle = libusb_open_device_with_vid_pid(NULL, VID, PID)) == NULL){
 		fprintf(stdout, "Problem acquireing handle\n");
@@ -123,7 +82,7 @@ static int init(){
 	return 0;
 }
 
-static int deInit(){
+int closeHandle(){
 	//TODO free all transfers individually...
 	//if(ctrlTransfer != NULL)
 	//	libusb_free_transfer(ctrlTransfer);
@@ -133,12 +92,12 @@ static int deInit(){
 	return 0;
 }
 
-static int setupAccessoryMode(
+int chAccessoryMode(
 		const char* manufacturer,
 		const char* modelName,
 		const char* description,
 		const char* version,
-		const char* uri,
+		const char* url,
 		const char* serialNumber){
 
 	unsigned char ioBuffer[2];
@@ -164,17 +123,12 @@ static int setupAccessoryMode(
 
 	usleep(1000);//sometimes hangs on the next transfer :(
 
-	response = libusb_control_transfer(handle,0x40,52,0,0,(char*)manufacturer,strlen(manufacturer),0);
-	if(response < 0){error(response);return -1;}
-	response = libusb_control_transfer(handle,0x40,52,0,1,(char*)modelName,strlen(modelName)+1,0);
-	if(response < 0){error(response);return -1;}
-	response = libusb_control_transfer(handle,0x40,52,0,2,(char*)description,strlen(description)+1,0);
-	if(response < 0){error(response);return -1;}
-	response = libusb_control_transfer(handle,0x40,52,0,3,(char*)version,strlen(version)+1,0);
-	if(response < 0){error(response);return -1;}
-	response = libusb_control_transfer(handle,0x40,52,0,4,(char*)uri,strlen(uri)+1,0);
-	if(response < 0){error(response);return -1;}
-	response = libusb_control_transfer(handle,0x40,52,0,5,(char*)serialNumber,strlen(serialNumber)+1,0);
+	response |= libusb_control_transfer(handle,0x40,52,0,0,manufacturer,strlen(manufacturer),0);
+	response |= libusb_control_transfer(handle,0x40,52,0,1,modelName,strlen(modelName)+1,0);
+	response |= libusb_control_transfer(handle,0x40,52,0,2,description,strlen(description)+1,0);
+	response |= libusb_control_transfer(handle,0x40,52,0,3,version,strlen(version)+1,0);
+	response |= libusb_control_transfer(handle,0x40,52,0,4,url,strlen(url)+1,0);
+	response |= libusb_control_transfer(handle,0x40,52,0,5,serialNumber,strlen(serialNumber)+1,0);
 	if(response < 0){error(response);return -1;}
 
 	fprintf(stdout,"Accessory Identification sent\n", devVersion);
