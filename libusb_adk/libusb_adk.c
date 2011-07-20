@@ -87,6 +87,7 @@ int open_accesory_dev()
 			return 0;
 		}
 	}
+	return -1;
 }
 void print_devs(libusb_device **devs)
 {
