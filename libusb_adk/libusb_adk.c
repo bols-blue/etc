@@ -21,8 +21,6 @@
  */
 
 #include <stdio.h>
-#include <usb.h>
-#include <libusb.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -48,16 +46,68 @@
 
    Tested for Nexus S with Gingerbread 2.3.4
  */
-
-static int mainPhase();
 static void error(int code);
 static void status(int code);
 //static
 static struct libusb_device_handle* handle;
 static char stop;
 static char success = 0;
+int open_accesory_dev()
+{
+	libusb_device **devs;
+	int r;
+	ssize_t cnt;
 
-static int mainPhase(){
+	if( libusb_init(NULL) < 0)
+		return -1;
+
+	cnt = libusb_get_device_list(NULL, &devs);
+	libusb_device *dev;
+	int i = 0;
+
+	while ((dev = devs[i++]) != NULL) {
+		struct libusb_device_descriptor desc;
+		int r = libusb_get_device_descriptor(dev, &desc);
+		if (r < 0) {
+			fprintf(stderr, "failed to get device descriptor");
+			return -1;
+		}
+
+		if(desc.idVendor == VID && desc.idProduct == PID){
+			printf("%04x:%04x (bus %d, device %d)\n",
+					desc.idVendor, desc.idProduct,
+					libusb_get_bus_number(dev), libusb_get_device_address(dev));
+			libusb_open(dev,&handle);
+			return 0;
+		}else if(desc.idVendor == GOOGLE_VID && desc.idProduct == PID){
+			printf("%04x:%04x (bus %d, device %d)\n",
+					desc.idVendor, desc.idProduct,
+					libusb_get_bus_number(dev), libusb_get_device_address(dev));
+			libusb_open(dev,&handle);
+			return 0;
+		}
+	}
+}
+void print_devs(libusb_device **devs)
+{
+	libusb_device *dev;
+	int i = 0;
+
+	while ((dev = devs[i++]) != NULL) {
+		struct libusb_device_descriptor desc;
+		int r = libusb_get_device_descriptor(dev, &desc);
+		if (r < 0) {
+			fprintf(stderr, "failed to get device descriptor");
+			return;
+		}
+
+		printf("%04x:%04x (bus %d, device %d)\n",
+			desc.idVendor, desc.idProduct,
+			libusb_get_bus_number(dev), libusb_get_device_address(dev));
+	}
+}
+
+int mainPhase(){
 	unsigned char buffer[500000];
 	int response = 0;
 	static int transferred;

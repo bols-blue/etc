@@ -1,8 +1,9 @@
+#include <stdio.h>
 #include "libusb_adk.h"
 
 int main (int argc, char *argv[])
 {
-	if(init() < 0)
+	if(open_accesory_dev() < 0)
 		return;
 	//doTransfer();
 	if(chAccessoryMode(
@@ -27,6 +28,5 @@ int main (int argc, char *argv[])
 	}	
 	closeHandle();
 	fprintf(stdout, "Done, no errors\n");
-	libusb_close(handle);
 	return 0;
 }
