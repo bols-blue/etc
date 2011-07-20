@@ -51,7 +51,12 @@ class PomGenerator_SubPomGanerator
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
-
+    public function printAll(){
+	$this->printHeader();
+	$this->printPearent();
+	$this->printBody();
+	$this->printFutter();
+    }
     /**
      * Short description of method printPearent
      *
@@ -62,6 +67,13 @@ class PomGenerator_SubPomGanerator
     public function printPearent()
     {
         // section -64--88-1-66--3980adbb:13030b35d90:-8000:0000000000000ABC begin
+	echo "
+	<parent>
+		<groupId>$this->groupName</groupId>
+		<artifactId>$this->projectName-parent</artifactId>
+		<version>$this->version</version>
+	</parent>
+	";
         // section -64--88-1-66--3980adbb:13030b35d90:-8000:0000000000000ABC end
     }
 

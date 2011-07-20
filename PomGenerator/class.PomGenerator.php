@@ -38,7 +38,12 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 class PomGenerator_PomGenerator
 {
     // --- ASSOCIATIONS ---
-
+    public function __construct($projectName,$moduleList){
+            $this->projectName = $projectName;
+            $this->groupName = "jp.lnc.eclipse.".$projectName;
+            $this->version = "1.0.0-SNAPSHOT";
+	    $this->moduleList =$moduleList;
+    }
 
     // --- ATTRIBUTES ---
 
@@ -82,6 +87,9 @@ class PomGenerator_PomGenerator
     public function printAll()
     {
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AA9 begin
+	$this->printHeader();
+	$this->printBody();
+	$this->printFutter();
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AA9 end
     }
 
@@ -95,6 +103,28 @@ class PomGenerator_PomGenerator
     public function printHeader()
     {
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AAB begin
+	echo '<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Copyright (C) 2009, Igor Fedorenko <igor@ifedorenko.com> Copyright (C) 
+	2010, Chris Aniszczyk <caniszczyk@gmail.com> All rights reserved. This program 
+	and the accompanying materials are made available under the terms of the 
+	Eclipse Public License v1.0 which accompanies this distribution, and is available 
+	at http://www.eclipse.org/legal/epl-v10.html -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>';
+	echo "
+	<groupId>$this->groupName</groupId>
+	<artifactId>$this->projectName-parent</artifactId>
+	<version>$this->version</version>
+	<packaging>pom</packaging>
+
+	<name>Maven Example Parent (Incubation)</name>";
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AAB end
     }
 
@@ -108,7 +138,8 @@ class PomGenerator_PomGenerator
     public function printBody()
     {
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB3 begin
-        // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB3 end
+        
+	// section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB3 end
     }
 
     /**
@@ -121,7 +152,8 @@ class PomGenerator_PomGenerator
     public function printFutter()
     {
         // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB5 begin
-        // section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB5 end
+        echo "</project>";
+	// section -64--88-1-67-3804dd1e:1302b37cea3:-8000:0000000000000AB5 end
     }
 
 } /* end of class PomGenerator_PomGenerator */
