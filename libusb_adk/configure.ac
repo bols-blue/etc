@@ -1,16 +1,20 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.67])
-AC_INIT(FULL-PACKAGE-NAME, 0.0.1, name@hoge.jp)
+AC_PREREQ([2.59])
+AC_INIT(FULL-PACKAGE-NAME, 0.1.0, bols-blue@lnc.jp)
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([InitAccessoryMode.c])
 AC_CONFIG_HEADERS([config.h])
+AC_CHECK_TOOL([RANLIB], [ranlib], [:])
+
 
 # Checks for programs.
 AC_PROG_CC
 
 # Checks for libraries.
+AC_CHECK_LIB(usb,libusb_release_interface )
+AC_CHECK_LIB(usb-1.0,libusb_release_interface )
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdint.h stdlib.h string.h unistd.h])
@@ -35,12 +39,13 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([memset sleep])
 
+AC_CACHE_VAL(host, [host="yes"])
 dnl Some operating system include canna libraries by default.
 dnl Use that pathname by default.
 dnl for freebsd2.*, order DOES matter.  don't bother.
-case "$host_os" in
-	bsdi2.1)
-		vi_cannapath="/usr/contrib/canna";;
+case "$host" in
+	Linux-ubuntu)
+		vi_cannapath="/usr/contrib/";;
 	freebsd2.2*|freebsd3*)
 		vi_cannapath="/usr/local";;
 	freebsd2*)
@@ -65,6 +70,7 @@ if test "$vi_cv_cannahdrcheck" = "no"; then
 	echo -n "Fatal error: no libusb header in suggested path"
 	if test "$vi_cannapath" != "yes"; then
 		echo ", $vi_cannapath/include."
+		echo "$host_os:$hostname:$ac_hostname:$host"
 	else
 		echo "."
 	fi
@@ -85,6 +91,7 @@ if test "$vi_cv_cannalibcheck" = "no"; then
 	echo "Fatal error: no usb library in suggested path"
 	if test "$vi_cannapath" != "yes"; then
 		echo ", $vi_cannapath/lib."
+		echo "$hostname:$ac_hostname:$host"
 	else
 		echo "."
 	fi
