@@ -1,5 +1,5 @@
 
-#include <libusb.h>
+#include <usb.h>
 extern int mainPhase();
 extern int init(void);
 extern int closeHandle(void);

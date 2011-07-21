@@ -1,0 +1,4 @@
+
+[submodule "adk_emu"]
+	path = adk_emu
+	url = git@github.com:bols-blue/adk_emu.git
