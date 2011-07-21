@@ -4,8 +4,8 @@
 int main (int argc, char *argv[])
 {
 	if(open_accesory_dev() < 0)
-		return;
-	//doTransfer();
+		return 0;
+	fprintf(stdout, "Start setting up accessory\n");
 	if(chAccessoryMode(
 				"bols",
 				"Demo",

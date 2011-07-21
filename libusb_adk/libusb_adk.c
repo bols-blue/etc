@@ -83,8 +83,7 @@ int open_accesory_dev()
 			printf("%04x:%04x (bus %d, device %d)\n",
 					desc.idVendor, desc.idProduct,
 					libusb_get_bus_number(dev), libusb_get_device_address(dev));
-			libusb_open(dev,&handle);
-			return 0;
+			return libusb_open(dev,handle);
 		}
 	}
 	return -1;
